@@ -1,25 +1,51 @@
-import React from 'react';
+import './hooks.css';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
-class Producto extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            id: props.datos.id,
-            title: props.datos.title,
-            description: props.datos.description,
-            images: props.datos.images
+function Producto(props) {
+
+    const [productos, setProductos] = useState();
 
 
-        };
+    const { id } = useParams();
+    const fetchApi = () => {
+        fetch("https://dummyjson.com/products/" + id)
+            .then(res => res.json())
+            .then(data => {
+                setProductos(data);
+
+            })
     }
-    render() {
-        return (
-            <div>
-                <p>{this.state.id}</p>
-                <p>{this.state.title}</p>
-                <p>{this.state.description}</p>
-                <img src={this.state.images[0]}></img>
-            </div>
-        );
-    }
-} export default Producto;
+
+    useEffect(() => {
+        fetchApi();
+    });
+
+if(productos){
+console.log(productos.images[0]);
+    return (<div className='producto'>
+
+        <h1>PRODUCTO</h1>
+        <p><b>Id: </b>{productos.id} </p>
+
+        <p><b>Titulo: </b>{productos.title} </p>
+
+        <p><b>Descripción: </b>{productos.description} </p>
+
+        <p><b>Precio: </b>{productos.price} </p>
+
+        <img className='imgBody' src={productos.images[0]}></img>
+        <br></br>
+
+    </div>)
+}else{
+    return(
+        <div></div>
+    )
+
+    
+}
+
+
+}
+export default Producto;

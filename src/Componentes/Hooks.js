@@ -2,13 +2,9 @@ import './hooks.css';
 import React, { useState, useEffect } from 'react';
 
 function Hooks(props) {
-
-    const [contador, setCount] = useState(props.initialNumber);
     const [productos, setProductos] = useState([]);
 
-    const handleClick = () => {
-        setCount(contador + 1);
-    }
+
 
     const fetchApi = () => {
         fetch("https://dummyjson.com/products")
@@ -21,31 +17,20 @@ function Hooks(props) {
 
     useEffect(() => {
         fetchApi();
-    }, [contador]);
-
-    if (contador < productos.length) {
+    });
 
 
-        return (<div>
+    return (<div>
+        <h1 className='h1'>PRODUCTOS:</h1>
+        {productos.map(value =>
+            <a href={"./producto/"+ value.id}><div className='producto'>
+                <h1>{value.title}</h1>
+                <img className='imgBody' src={value.images[0]}></img>
+            </div></a>)
+        }
 
-            <p><b>Id: </b>{productos[contador]?.id} </p>
+</div>)
 
-            <p><b>Titulo: </b>{productos[contador]?.title} </p>
-
-            <p><b>Descripción: </b>{productos[contador]?.description} </p>
-
-            <p><b>Precio: </b>{productos[contador]?.price} </p>
-
-            <img className='imgBody' src={productos[contador]?.images[0]}></img>
-            <br></br>
-            <button onClick={handleClick}>
-                Cambiar Producto
-            </button>
-        </div>)
-
-    } else {
-        return (
-            <div><b>NO HAY MÁS PRODUCTOS</b></div>)
-    }
 }
 export default Hooks;
+

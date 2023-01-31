@@ -7,7 +7,7 @@ function App() {
     <div className="App">
       <div className="container">
         <h1>PRODUCTOS</h1>
-        <Hooks initialNumber={0}/>
+        <Hooks/>
       </div>
     </div>
   );
